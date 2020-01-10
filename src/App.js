@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from "react-redux";
+import { fetch } from "./actions/actions";
 
-function App() {
+import "./App.css";
+
+function App(props) {
+  console.log(props.isLoading);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="masterContainer">
+      <div className="container">
+        <h1 className="header">{props.isLoading ? "Fetching" : "Doggo"}</h1>
+        <button onClick={props.fetch}>New Dog Who Dis?</button>
+        <img src={props.dog} alt="a Dog" />
+      </div>
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    dog: state.dog,
+    isLoading: state.isLoading
+  };
+}
+
+const mapDispatchToProps = {
+  fetch
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
